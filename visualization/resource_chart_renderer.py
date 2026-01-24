@@ -4,7 +4,7 @@ import numpy as np
 import logging
 
 from models import SolverResults, ProjectData
-from config import VisualizationConfig
+from config import VisualizationConfig, OutputConfig
 from .data_transformer import VisualizationDataTransformer
 from utils import now_stamp, safe_mkdir
 
@@ -14,8 +14,9 @@ logger = logging.getLogger(__name__)
 class ResourceUtilizationRenderer:
     """Renders resource utilization charts."""
     
-    def __init__(self, config: VisualizationConfig = None):
-        self.config = config or VisualizationConfig()
+    def __init__(self, viz_config: VisualizationConfig = None, output_config: OutputConfig = None):
+        self.config = viz_config or VisualizationConfig()
+        self.output_config = output_config or OutputConfig()
         self.transformer = VisualizationDataTransformer()
     
     def render(
@@ -84,7 +85,9 @@ class ResourceUtilizationRenderer:
         
         plt.tight_layout()
         
-        filepath = output_dir / f"Resource_Utilization_{timestamp}.png"
+        # Fix: Use filename from config
+        filename = f"{self.output_config.RESOURCE_UTIL_PREFIX}_{timestamp}.png"
+        filepath = output_dir / filename
         plt.savefig(filepath, dpi=self.config.CHART_DPI, bbox_inches="tight", facecolor="white")
         plt.close(fig)
         

@@ -119,9 +119,10 @@ class RCPSPSolver(ISolver):
         makespan_from_var = int(cmax_value) if cmax_value is not None else 0
         
         # Safety check: compute from schedule
+        # Fix: Use configured dummy names instead of hardcoded "0", "N"
         schedule_makespan = max(
             (activity.finish for activity in schedule.values() 
-             if activity.activity_id not in ["0", "N"]),
+             if activity.activity_id not in [self.config.DUMMY_START, self.config.DUMMY_END]),
             default=0
         )
         

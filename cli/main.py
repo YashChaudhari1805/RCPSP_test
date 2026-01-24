@@ -10,7 +10,7 @@ from input import ExcelDataLoader
 from validation import DataValidator
 from solver import RCPSPSolver
 from orchestration import RCPSPOrchestrator
-from config import ModelConfig, OutputConfig
+from config import ModelConfig, OutputConfig, VisualizationConfig
 from utils.logging_utils import setup_logging
 
 logger = logging.getLogger(__name__)
@@ -72,20 +72,26 @@ def main():
         print(f"ERROR: Excel file not found: {excel_path}")
         sys.exit(1)
     
-    # Initialize components
-    model_config = ModelConfig()
-    output_config = OutputConfig()
+    # Initialize configurations with CLI arguments
+    # Fix: Ensure CLI args override defaults in the config objects
+    model_config = ModelConfig(DEFAULT_TIME_LIMIT=args.time_limit)
+    output_config = OutputConfig(BASE_DIR=Path(args.output))
+    viz_config = VisualizationConfig(TASKS_PER_PAGE=args.tasks_per_page)
     
-    data_loader = ExcelDataLoader()
+    # Initialize components
+    # Fix: Pass model_config to data loader so parsing settings are consistent
+    data_loader = ExcelDataLoader(config=model_config)
     validator = DataValidator()
     solver = RCPSPSolver(config=model_config, time_limit=args.time_limit)
     
     # Create orchestrator
+    # Fix: Pass output and visualization configs so they propagate to sub-components
     orchestrator = RCPSPOrchestrator(
         data_loader=data_loader,
         validator=validator,
         solver=solver,
-        output_base_dir=Path(args.output)
+        output_config=output_config,
+        visualization_config=viz_config
     )
     
     # Run optimization

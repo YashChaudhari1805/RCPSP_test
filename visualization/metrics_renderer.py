@@ -4,7 +4,7 @@ import numpy as np
 import logging
 
 from models import SolverResults, ProjectData
-from config import VisualizationConfig
+from config import VisualizationConfig, OutputConfig
 from utils import now_stamp, safe_mkdir
 
 logger = logging.getLogger(__name__)
@@ -13,8 +13,9 @@ logger = logging.getLogger(__name__)
 class SummaryMetricsRenderer:
     """Renders summary metrics chart."""
     
-    def __init__(self, config: VisualizationConfig = None):
-        self.config = config or VisualizationConfig()
+    def __init__(self, viz_config: VisualizationConfig = None, output_config: OutputConfig = None):
+        self.config = viz_config or VisualizationConfig()
+        self.output_config = output_config or OutputConfig()
     
     def render(
         self,
@@ -43,7 +44,9 @@ class SummaryMetricsRenderer:
         
         plt.tight_layout()
         
-        filepath = output_dir / f"Summary_Metrics_{timestamp}.png"
+        # Fix: Use filename from config
+        filename = f"{self.output_config.SUMMARY_METRICS_PREFIX}_{timestamp}.png"
+        filepath = output_dir / filename
         plt.savefig(filepath, dpi=self.config.CHART_DPI, bbox_inches="tight", facecolor="white")
         plt.close(fig)
         

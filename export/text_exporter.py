@@ -4,12 +4,16 @@ import logging
 
 from models import SolverResults, ProjectData
 from utils import now_stamp, safe_mkdir
+from config import OutputConfig
 
 logger = logging.getLogger(__name__)
 
 
 class TextExporter:
     """Exports results to text format."""
+    
+    def __init__(self, config: OutputConfig = None):
+        self.config = config or OutputConfig()
     
     def export(
         self,
@@ -22,7 +26,9 @@ class TextExporter:
         timestamp = timestamp or now_stamp()
         safe_mkdir(output_dir)
         
-        filepath = output_dir / f"RCPSP_Results_{timestamp}.txt"
+        # Fix: Use config prefix
+        filename = f"{self.config.TEXT_PREFIX}_{timestamp}.txt"
+        filepath = output_dir / filename
         
         with open(filepath, "w", encoding="utf-8") as f:
             self._write_header(f, results)

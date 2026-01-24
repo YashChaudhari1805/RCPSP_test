@@ -1,0 +1,16 @@
+2026-01-24 23:28:36,731 - INFO - Flowchart saved to output\run_20260124_232835\Program_Flowchart.png
+2026-01-24 23:28:36,732 - INFO - Loading data from D:\RCPSP-MILP Solver\uploads\Sample Input 2.xlsx
+2026-01-24 23:28:38,287 - INFO - Detected single-sheet format
+2026-01-24 23:28:38,301 - INFO - Data loaded successfully
+2026-01-24 23:28:38,302 - INFO - Data validation passed
+2026-01-24 23:28:38,302 - INFO - Starting RCPSP optimization
+2026-01-24 23:28:38,315 - INFO - Model built with 28 constraints in 0.01s
+2026-01-24 23:28:38,315 - INFO - Solving MILP model...
+2026-01-24 23:28:38,570 - INFO - Solver status: Optimal | CPU: 0.016s | Wall: 0.255s
+2026-01-24 23:28:38,571 - INFO - Optimal makespan: 14
+2026-01-24 23:28:38,777 - INFO - Gantt chart page 1 saved: output\run_20260124_232835\Gantt_Chart_20260124_232838_P1.png
+2026-01-24 23:28:38,778 - WARNING - No renewable resources to plot
+2026-01-24 23:28:39,227 - INFO - Summary metrics chart saved: output\run_20260124_232835\Summary_Metrics_20260124_232838.png
+2026-01-24 23:28:39,318 - INFO - Excel report saved: output\run_20260124_232835\RCPSP_Results_20260124_232839.xlsx
+2026-01-24 23:28:39,319 - INFO - Text report saved: output\run_20260124_232835\RCPSP_Results_20260124_232839.txt
+2026-01-24 23:28:39,321 - INFO - JSON summary saved: output\run_20260124_232835\RCPSP_Summary_20260124_232839.json

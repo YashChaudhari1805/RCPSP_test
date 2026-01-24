@@ -7,6 +7,7 @@ from .interfaces import IDataLoader
 from .multi_sheet_parser import MultiSheetParser
 from .single_sheet_parser import SingleSheetParser
 from models import ProjectData
+from config import ModelConfig
 
 logger = logging.getLogger(__name__)
 
@@ -14,9 +15,11 @@ logger = logging.getLogger(__name__)
 class ExcelDataLoader(IDataLoader):
     """Loads project data from Excel files."""
     
-    def __init__(self):
-        self.multi_parser = MultiSheetParser()
-        self.single_parser = SingleSheetParser()
+    def __init__(self, config: ModelConfig = None):
+        # Fix: Accept and store config, pass it to sub-parsers
+        self.config = config or ModelConfig()
+        self.multi_parser = MultiSheetParser(self.config)
+        self.single_parser = SingleSheetParser(self.config)
     
     def load(self, filepath: str) -> ProjectData:
         """

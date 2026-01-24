@@ -13,6 +13,7 @@ from visualization import (
 from export import ExcelExporter, TextExporter, JSONExporter
 from .run_result import RunResult
 from utils import now_stamp, safe_mkdir
+from config import OutputConfig, VisualizationConfig
 
 logger = logging.getLogger(__name__)
 
@@ -25,23 +26,30 @@ class RCPSPOrchestrator:
         data_loader: IDataLoader,
         validator: IDataValidator,
         solver: ISolver,
-        output_base_dir: Path = Path("./output")
+        output_config: OutputConfig = None,
+        visualization_config: VisualizationConfig = None
     ):
         self.data_loader = data_loader
         self.validator = validator
         self.solver = solver
-        self.output_base_dir = output_base_dir
+        
+        # Fix: Use provided configs or fall back to defaults
+        self.output_config = output_config or OutputConfig()
+        self.viz_config = visualization_config or VisualizationConfig()
+        self.output_base_dir = self.output_config.BASE_DIR
         
         # Visualization components
-        self.flowchart_gen = FlowchartGenerator()
-        self.gantt_renderer = GanttChartRenderer()
-        self.resource_renderer = ResourceUtilizationRenderer()
-        self.metrics_renderer = SummaryMetricsRenderer()
+        # Fix: Pass configs to renderers
+        self.flowchart_gen = FlowchartGenerator(self.output_config)
+        self.gantt_renderer = GanttChartRenderer(self.viz_config, self.output_config)
+        self.resource_renderer = ResourceUtilizationRenderer(self.viz_config, self.output_config)
+        self.metrics_renderer = SummaryMetricsRenderer(self.viz_config, self.output_config)
         
         # Export components
-        self.excel_exporter = ExcelExporter()
-        self.text_exporter = TextExporter()
-        self.json_exporter = JSONExporter()
+        # Fix: Pass config to exporters
+        self.excel_exporter = ExcelExporter(self.output_config)
+        self.text_exporter = TextExporter(self.output_config)
+        self.json_exporter = JSONExporter(self.output_config)
     
     def run(self, excel_path: str) -> RunResult:
         """
@@ -153,15 +161,15 @@ class RCPSPOrchestrator:
             "json": json_path
         }
     
-    @staticmethod
-    def _print_summary(run_dir, vis_paths, export_paths):
+    def _print_summary(self, run_dir, vis_paths, export_paths):
         """Print summary of outputs."""
         print("\n" + "=" * 70)
         print("--- OUTPUT SUMMARY ---")
         print("=" * 70)
         
+        # Fix: Use dynamic flowchart name from config
         print("\n📈 Flowchart:")
-        print(f"  • {run_dir / 'Program_Flowchart.png'}")
+        print(f"  • {run_dir / self.output_config.FLOWCHART_NAME}")
         
         print("\n📊 Gantt Charts (Paged):")
         if vis_paths["gantt_pages"]:

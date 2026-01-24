@@ -6,6 +6,7 @@ from pathlib import Path
 import logging
 
 from utils import safe_mkdir
+from config import OutputConfig
 
 logger = logging.getLogger(__name__)
 
@@ -13,8 +14,10 @@ logger = logging.getLogger(__name__)
 class FlowchartGenerator:
     """Generates program flowchart."""
     
-    @staticmethod
-    def generate(output_dir: Path) -> str:
+    def __init__(self, config: OutputConfig = None):
+        self.config = config or OutputConfig()
+    
+    def generate(self, output_dir: Path) -> str:
         """Generate and save program flowchart."""
         safe_mkdir(output_dir)
         
@@ -26,70 +29,71 @@ class FlowchartGenerator:
         y_pos = 19
         
         # Start
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "START", "lightgreen", "ellipse")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "START", "lightgreen", "ellipse")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Generate Flowchart
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Generate Flowchart", "plum")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Generate Flowchart", "plum")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Load Excel
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Load Excel Input", "lightblue")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Load Excel Input", "lightblue")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Validate
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Validate Data\n(Cycles/IDs/Capacities)", "lightcoral")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Validate Data\n(Cycles/IDs/Capacities)", "lightcoral")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Valid decision
-        FlowchartGenerator._draw_box(ax, 3, y_pos, 4, 1, "Valid?", "lightyellow", "diamond")
-        FlowchartGenerator._draw_arrow(ax, 3, y_pos + 0.5, 1, y_pos + 0.5, "No")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 1, "Yes")
-        FlowchartGenerator._draw_box(ax, 0.2, y_pos + 0.2, 1.5, 0.6, "Exit", "salmon")
+        self._draw_box(ax, 3, y_pos, 4, 1, "Valid?", "lightyellow", "diamond")
+        self._draw_arrow(ax, 3, y_pos + 0.5, 1, y_pos + 0.5, "No")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 1, "Yes")
+        self._draw_box(ax, 0.2, y_pos + 0.2, 1.5, 0.6, "Exit", "salmon")
         y_pos -= 1.5
         
         # Build model
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Build MILP Model\n(+ Cmax)", "lightblue")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Build MILP Model\n(+ Cmax)", "lightblue")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Solve
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Solve (CBC)", "lightblue")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Solve (CBC)", "lightblue")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Optimal decision
-        FlowchartGenerator._draw_box(ax, 3, y_pos, 4, 1, "Optimal?", "lightyellow", "diamond")
-        FlowchartGenerator._draw_arrow(ax, 3, y_pos + 0.5, 1, y_pos + 0.5, "No")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 1, "Yes")
-        FlowchartGenerator._draw_box(ax, 0.2, y_pos + 0.2, 1.5, 0.6, "Report Fail", "salmon")
+        self._draw_box(ax, 3, y_pos, 4, 1, "Optimal?", "lightyellow", "diamond")
+        self._draw_arrow(ax, 3, y_pos + 0.5, 1, y_pos + 0.5, "No")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 1, "Yes")
+        self._draw_box(ax, 0.2, y_pos + 0.2, 1.5, 0.6, "Report Fail", "salmon")
         y_pos -= 1.5
         
         # Extract results
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Extract Schedule\n+ Metrics", "lightblue")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Extract Schedule\n+ Metrics", "lightblue")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Create figures
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Create Figures\n(Gantt paged)", "plum")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Create Figures\n(Gantt paged)", "plum")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # Export
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "Export\nExcel/TXT/JSON", "plum")
-        FlowchartGenerator._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "Export\nExcel/TXT/JSON", "plum")
+        self._draw_arrow(ax, 5, y_pos, 5, y_pos - 0.8)
         y_pos -= 1.3
         
         # End
-        FlowchartGenerator._draw_box(ax, 3.5, y_pos, 3, 0.8, "END", "lightgreen", "ellipse")
+        self._draw_box(ax, 3.5, y_pos, 3, 0.8, "END", "lightgreen", "ellipse")
         
         plt.title("RCPSP Solver Program Flowchart", fontsize=16, weight="bold", pad=20)
         
-        filepath = output_dir / "Program_Flowchart.png"
+        # Fix: Use filename from config
+        filepath = output_dir / self.config.FLOWCHART_NAME
         plt.savefig(filepath, dpi=300, bbox_inches="tight", facecolor="white")
         plt.close(fig)
         

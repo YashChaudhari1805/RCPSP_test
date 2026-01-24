@@ -5,12 +5,16 @@ import logging
 
 from models import SolverResults, ProjectData
 from utils import now_stamp, safe_mkdir
+from config import OutputConfig
 
 logger = logging.getLogger(__name__)
 
 
 class JSONExporter:
     """Exports results to JSON format."""
+    
+    def __init__(self, config: OutputConfig = None):
+        self.config = config or OutputConfig()
     
     def export(
         self,
@@ -23,7 +27,9 @@ class JSONExporter:
         timestamp = timestamp or now_stamp()
         safe_mkdir(output_dir)
         
-        filepath = output_dir / f"RCPSP_Summary_{timestamp}.json"
+        # Fix: Use config prefix
+        filename = f"{self.config.JSON_PREFIX}_{timestamp}.json"
+        filepath = output_dir / filename
         
         schedule_data = {
             activity.activity_id: {

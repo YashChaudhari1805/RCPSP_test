@@ -6,7 +6,7 @@ import logging
 from typing import List
 
 from models import SolverResults, ProjectData
-from config import VisualizationConfig
+from config import VisualizationConfig, OutputConfig
 from .data_transformer import VisualizationDataTransformer
 from utils import now_stamp, safe_mkdir
 
@@ -16,8 +16,10 @@ logger = logging.getLogger(__name__)
 class GanttChartRenderer:
     """Renders Gantt charts with pagination."""
     
-    def __init__(self, config: VisualizationConfig = None):
-        self.config = config or VisualizationConfig()
+    def __init__(self, viz_config: VisualizationConfig = None, output_config: OutputConfig = None):
+        # Fix: Accept both configs
+        self.config = viz_config or VisualizationConfig()
+        self.output_config = output_config or OutputConfig()
         self.transformer = VisualizationDataTransformer()
     
     def render(
@@ -162,7 +164,9 @@ class GanttChartRenderer:
         plt.subplots_adjust(left=0.22, right=0.98, top=0.90, bottom=0.10)
         
         # Save
-        filepath = output_dir / f"Gantt_Chart_{timestamp}_P{page_num}.png"
+        # Fix: Use filename from config
+        filename = f"{self.output_config.GANTT_PREFIX}_{timestamp}_P{page_num}.png"
+        filepath = output_dir / filename
         plt.savefig(filepath, dpi=self.config.GANTT_DPI, facecolor="white")
         plt.close(fig)
         

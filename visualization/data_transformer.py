@@ -18,7 +18,7 @@ class VisualizationDataTransformer:
         results: SolverResults,
         data: ProjectData,
         resource_id: str
-    ) -> List[int]:
+    ) -> List[float]:
         """Calculate resource utilization over time."""
         makespan = max(int(results.makespan), 1)
         time_points = range(makespan + 1)
@@ -27,8 +27,13 @@ class VisualizationDataTransformer:
         for t in time_points:
             usage = 0
             for activity in results.schedule.values():
+                # Note: Assumes standard dummy names "0" and "N" here.
+                # If customized in config, this filtering might need adjustment.
                 if activity.activity_id in ["0", "N"]:
                     continue
                 if activity.start <= t < activity.finish:
                     usage += data.resource_usage.get(activity.activity_id, {}).get(resource_id, 0)
             utilization.append(usage)
+            
+        # Fix: Added missing return statement
+        return utilization

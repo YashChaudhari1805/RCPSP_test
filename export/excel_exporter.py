@@ -5,12 +5,17 @@ import logging
 
 from models import SolverResults, ProjectData
 from utils import now_stamp, safe_mkdir
+from config import OutputConfig
 
 logger = logging.getLogger(__name__)
 
 
 class ExcelExporter:
     """Exports results to Excel format."""
+    
+    def __init__(self, config: OutputConfig = None):
+        # Fix: Accept config
+        self.config = config or OutputConfig()
     
     def export(
         self,
@@ -23,7 +28,9 @@ class ExcelExporter:
         timestamp = timestamp or now_stamp()
         safe_mkdir(output_dir)
         
-        filepath = output_dir / f"RCPSP_Results_{timestamp}.xlsx"
+        # Fix: Use prefix from config
+        filename = f"{self.config.EXCEL_PREFIX}_{timestamp}.xlsx"
+        filepath = output_dir / filename
         
         with pd.ExcelWriter(filepath, engine="openpyxl") as writer:
             self._write_schedule_sheet(results, data, writer)

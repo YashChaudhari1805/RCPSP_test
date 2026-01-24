@@ -41,12 +41,14 @@ class DataValidator(IDataValidator):
         # Validate durations
         for activity in data.activities.values():
             if activity.duration < 0:
-                result.add_error(f"Activity '{activity.id}' has negative duration: {activity.duration}")
+                # Fix: Use correct attribute activity_id instead of id
+                result.add_error(f"Activity '{activity.activity_id}' has negative duration: {activity.duration}")
         
         # Validate resource capacities
         for resource in data.resources.values():
             if resource.capacity <= 0:
-                result.add_error(f"Resource '{resource.id}' has non-positive capacity: {resource.capacity}")
+                # Fix: Use correct attribute resource_id instead of id
+                result.add_error(f"Resource '{resource.resource_id}' has non-positive capacity: {resource.capacity}")
         
         # Log results
         if result.has_errors():

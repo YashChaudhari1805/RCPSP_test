@@ -1,6 +1,6 @@
 import pulp
 import logging
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 
 from models import ProjectData
 from config import ModelConfig
