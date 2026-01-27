@@ -14,6 +14,11 @@ class Resource:
     capacity: int
     resource_type: ResourceType = ResourceType.RENEWABLE
     
+    @property
+    def resource_id(self):
+        """Alias for compatibility."""
+        return self.id
+    
     def __post_init__(self):
         if self.capacity <= 0:
             raise ValueError(f"Resource {self.id} has non-positive capacity: {self.capacity}")

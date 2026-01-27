@@ -76,3 +76,47 @@
 2026-01-25 23:31:45,976 - INFO - Model built with 3097 constraints in 5.14s
 2026-01-25 23:31:45,977 - INFO - Solving MILP model...
 2026-01-25 23:36:49,438 - INFO - Solver status: Not Solved | CPU: 1.906s | Wall: 303.461s
+2026-01-26 16:56:54,517 - INFO - Loading data from D:\RCPSP-MILP Solver\converted_excel_files\j1201_1.xlsx
+2026-01-26 16:56:56,633 - INFO - Detected PSPLIB format
+2026-01-26 16:56:56,634 - INFO - Parsing PSPLIB format Excel file
+2026-01-26 16:56:56,697 - INFO - Loaded sheets - Resources: (1, 4), Requests: (122, 7), Precedence: (122, 4)
+2026-01-26 16:56:56,697 - INFO - Parsed 4 resources
+2026-01-26 16:56:56,703 - INFO - Parsed 122 activities with resource usage
+2026-01-26 16:56:56,709 - INFO - Parsed 183 precedence relations
+2026-01-26 16:56:56,710 - INFO - Remapping dummies: 1->0, 122->N
+2026-01-26 16:56:56,710 - INFO - Parsed 122 activities, 4 resources, 183 precedence relations
+2026-01-26 16:56:56,710 - INFO - Data loaded successfully
+2026-01-26 16:56:56,711 - INFO - Data validation passed
+2026-01-26 16:57:01,059 - INFO - Network diagram saved to output\run_20260126_165654\Program_Flowchart.png
+2026-01-26 16:57:01,061 - INFO - Starting optimized RCPSP solver
+2026-01-26 17:02:24,878 - INFO - Loading data from D:\RCPSP-MILP Solver\converted_excel_files\j1201_1.xlsx
+2026-01-26 17:02:25,053 - INFO - Detected PSPLIB format
+2026-01-26 17:02:25,053 - INFO - Parsing PSPLIB format Excel file
+2026-01-26 17:02:25,089 - INFO - Loaded sheets - Resources: (1, 4), Requests: (122, 7), Precedence: (122, 4)
+2026-01-26 17:02:25,090 - INFO - Parsed 4 resources
+2026-01-26 17:02:25,093 - INFO - Parsed 122 activities with resource usage
+2026-01-26 17:02:25,098 - INFO - Parsed 183 precedence relations
+2026-01-26 17:02:25,099 - INFO - Remapping dummies: 1->0, 122->N
+2026-01-26 17:02:25,099 - INFO - Parsed 122 activities, 4 resources, 183 precedence relations
+2026-01-26 17:02:25,099 - INFO - Data loaded successfully
+2026-01-26 17:02:25,100 - INFO - Data validation passed
+2026-01-26 17:02:28,952 - INFO - Network diagram saved to output\run_20260126_170224\Program_Flowchart.png
+2026-01-26 17:02:29,003 - INFO - Starting optimized RCPSP solver
+2026-01-26 17:06:07,059 - INFO - Loading data from D:\RCPSP-MILP Solver\converted_excel_files\j1201_1.xlsx
+2026-01-26 17:06:07,249 - INFO - Detected PSPLIB format
+2026-01-26 17:06:07,249 - INFO - Parsing PSPLIB format Excel file
+2026-01-26 17:06:07,283 - INFO - Loaded sheets - Resources: (1, 4), Requests: (122, 7), Precedence: (122, 4)
+2026-01-26 17:06:07,284 - INFO - Parsed 4 resources
+2026-01-26 17:06:07,293 - INFO - Parsed 122 activities with resource usage
+2026-01-26 17:06:07,299 - INFO - Parsed 183 precedence relations
+2026-01-26 17:06:07,300 - INFO - Remapping dummies: 1->0, 122->N
+2026-01-26 17:06:07,301 - INFO - Parsed 122 activities, 4 resources, 183 precedence relations
+2026-01-26 17:06:07,301 - INFO - Data loaded successfully
+2026-01-26 17:06:07,302 - INFO - Data validation passed
+2026-01-26 17:06:10,938 - INFO - Network diagram saved to output\run_20260126_170607\Program_Flowchart.png
+2026-01-26 17:06:10,939 - INFO - Starting optimized RCPSP solver
+2026-01-26 17:06:11,640 - INFO - Gantt chart page 1 saved: output\run_20260126_170607\Gantt_Chart_20260126_170610_P1.png
+2026-01-26 17:06:12,219 - INFO - Gantt chart page 2 saved: output\run_20260126_170607\Gantt_Chart_20260126_170610_P2.png
+2026-01-26 17:06:13,119 - INFO - Resource utilization chart saved: output\run_20260126_170607\Resource_Utilization_20260126_170610.png
+2026-01-26 17:06:13,622 - INFO - Summary metrics chart saved: output\run_20260126_170607\Summary_Metrics_20260126_170610.png
+2026-01-26 17:06:13,790 - INFO - Excel report saved: output\run_20260126_170607\RCPSP_Results_20260126_170613.xlsx

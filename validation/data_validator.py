@@ -1,6 +1,6 @@
 import logging
-from .interfaces import IDataValidator
-from .cycle_detector import CycleDetector
+from validation.interfaces import IDataValidator
+from validation.cycle_detector import CycleDetector
 from models import ProjectData, ValidationResult
 
 logger = logging.getLogger(__name__)
@@ -12,18 +12,7 @@ class DataValidator(IDataValidator):
         self.cycle_detector = CycleDetector()
     
     def validate(self, data: ProjectData) -> ValidationResult:
-        """
-        Validate project data.
-        
-        Checks:
-        - No cycles in precedence graph
-        - Valid precedence references
-        - Non-negative durations
-        - Positive resource capacities
-        
-        Returns:
-            ValidationResult with errors and warnings
-        """
+        """Validate project data."""
         result = ValidationResult(is_valid=True)
         
         # Check for cycles
@@ -38,17 +27,15 @@ class DataValidator(IDataValidator):
             if succ not in activity_ids:
                 result.add_error(f"Invalid precedence: successor '{succ}' not found")
         
-        # Validate durations
+        # Validate durations (use .id not .activity_id)
         for activity in data.activities.values():
             if activity.duration < 0:
-                # Fix: Use correct attribute activity_id instead of id
-                result.add_error(f"Activity '{activity.activity_id}' has negative duration: {activity.duration}")
+                result.add_error(f"Activity '{activity.id}' has negative duration: {activity.duration}")
         
-        # Validate resource capacities
+        # Validate resource capacities (use .id not .resource_id)
         for resource in data.resources.values():
             if resource.capacity <= 0:
-                # Fix: Use correct attribute resource_id instead of id
-                result.add_error(f"Resource '{resource.resource_id}' has non-positive capacity: {resource.capacity}")
+                result.add_error(f"Resource '{resource.id}' has non-positive capacity: {resource.capacity}")
         
         # Log results
         if result.has_errors():

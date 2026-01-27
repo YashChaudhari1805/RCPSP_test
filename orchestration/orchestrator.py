@@ -95,7 +95,8 @@ class RCPSPOrchestrator:
         print("\n--- Solving Optimization Problem ---")
         solver_results = self.solver.solve(data)
         
-        if not solver_results.is_optimal():
+        # CHECK UPDATED: Accept both Optimal and Feasible results
+        if not solver_results.is_success():
             return RunResult.failed(f"Solver failed with status: {solver_results.status}")
         
         # Print results
@@ -125,7 +126,7 @@ class RCPSPOrchestrator:
     def _print_results(results):
         """Print optimization results."""
         print("\n" + "=" * 70)
-        print("--- OPTIMAL RESULTS ---")
+        print(f"--- SOLVER RESULTS ({results.status.upper()}) ---")
         print("=" * 70)
         print(f"Makespan: {results.makespan}")
         print(f"CPU Time (s):  {results.cpu_time:.6f}")

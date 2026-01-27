@@ -34,6 +34,14 @@ class SolverResults:
     def is_optimal(self) -> bool:
         """Check if solution is optimal."""
         return self.status == "Optimal"
+
+    def is_feasible(self) -> bool:
+        """Check if solution is feasible (but maybe not optimal)."""
+        return self.status.startswith("Feasible")
+    
+    def is_success(self) -> bool:
+        """Check if solver succeeded (Optimal or Feasible)."""
+        return self.is_optimal() or self.is_feasible()
     
     def get_scheduled_activities(self, exclude_dummies: bool = True) -> List[ScheduledActivity]:
         """Get list of scheduled activities, optionally excluding dummies."""
